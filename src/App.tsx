@@ -1,6 +1,7 @@
 import "./global.css";
+import SignInForm from "@/_auth/forms/SignInForm.tsx";
+import { Toaster } from "@/components/ui/toaster.tsx";
 import { Route, Routes } from "react-router-dom";
-import { SignInForm } from "@/_auth/forms/SigninForm.tsx";
 import SignUpForm from "@/_auth/forms/SignUpForm.tsx";
 import { Home } from "@/_root/pages";
 import AuthLayout from "@/_auth/AuthLayout.tsx";
@@ -21,6 +22,8 @@ function App() {
           <Route index element={<Home />} />
         </Route>
       </Routes>
+
+      <Toaster />
     </main>
   );
 }
