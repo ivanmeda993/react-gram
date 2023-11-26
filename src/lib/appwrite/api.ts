@@ -63,6 +63,10 @@ export const getAccount = handleErrors(async () => {
   return await account.get();
 });
 
+export const signOutAccount = handleErrors(async () => {
+  await account.deleteSession("current");
+});
+
 export const getCurrentUser = handleErrors(async () => {
   const currentAccount = await getAccount();
 

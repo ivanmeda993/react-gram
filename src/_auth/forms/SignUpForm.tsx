@@ -1,5 +1,4 @@
 import Loader from "@/components/shared/Loader.tsx";
-import { useToast } from "@/components/ui/use-toast.ts";
 import { useUserContext } from "@/context/AuthContext.tsx";
 import {
   useCreateUserAccountMutation,
@@ -7,6 +6,7 @@ import {
 } from "@/lib/react-query/queriesAndMutations.ts";
 import { signupSchema } from "@/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
+import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
@@ -23,7 +23,6 @@ import { z } from "zod";
 import { handleErrors } from "@/lib/utils";
 
 const SignUpForm = () => {
-  const { toast } = useToast();
   const navigate = useNavigate();
   const { checkAuthUser, isLoading: isUserLoading } = useUserContext();
 
@@ -47,7 +46,7 @@ const SignUpForm = () => {
       const newUser = await createUserAccount(user);
 
       if (!newUser) {
-        toast({ title: "Sign up failed. Please try again." });
+        toast.error("Sign up failed. Please try again.");
 
         return;
       }
@@ -58,9 +57,7 @@ const SignUpForm = () => {
       });
 
       if (!session) {
-        toast({
-          title: "Something went wrong. Please login your new account",
-        });
+        toast.error("Something went wrong. Please login your new account");
 
         navigate("/sign-in");
 
@@ -74,12 +71,12 @@ const SignUpForm = () => {
 
         navigate("/");
       } else {
-        toast({ title: "Login failed. Please try again." });
+        toast.error("Login failed. Please try again.");
 
         return;
       }
     },
-    (error) => toast({ title: error.message }),
+    (error) => toast.error(error.message),
   );
 
   return (

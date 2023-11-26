@@ -1,4 +1,5 @@
 import { handleErrors } from "@/lib/utils.ts";
+import toast from "react-hot-toast";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -15,14 +16,12 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Loader from "@/components/shared/Loader";
-import { useToast } from "@/components/ui/use-toast";
 
 import { SignInValidation } from "@/lib/validation";
 import { useSignInAccountMutation } from "@/lib/react-query/queriesAndMutations";
 import { useUserContext } from "@/context/AuthContext";
 
-const SigninForm = () => {
-  const { toast } = useToast();
+const SigningForm = () => {
   const navigate = useNavigate();
   const { checkAuthUser, isLoading: isUserLoading } = useUserContext();
 
@@ -42,7 +41,7 @@ const SigninForm = () => {
       const session = await signInAccount(user);
 
       if (!session) {
-        toast({ title: "Login failed. Please try again." });
+        toast.error("Login failed. Please try again.");
 
         return;
       }
@@ -54,12 +53,12 @@ const SigninForm = () => {
 
         navigate("/");
       } else {
-        toast({ title: "Login failed. Please try again." });
+        toast.error("Login failed. Please try again.");
 
         return;
       }
     },
-    (error) => toast({ title: error.message }),
+    (error) => toast.error(error.message),
   );
 
   return (
@@ -130,4 +129,4 @@ const SigninForm = () => {
   );
 };
 
-export default SigninForm;
+export default SigningForm;
